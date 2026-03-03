@@ -1,0 +1,13 @@
+tensorflow>=2.13
+numpy
+pandas
+matplotlib
+seaborn
+scikit-learn
+pillow
+streamlit
+plotly
+opencv-python
+python-dotenv
+kagglehub
+pyngrok

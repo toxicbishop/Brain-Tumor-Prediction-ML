@@ -1,0 +1,57 @@
+# ─── Python ───────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+
+# ─── Virtual Environments ─────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+.env           # actual secrets file — never commit this!
+
+# ─── Jupyter Notebooks ────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ─── Trained Model Files (large — use Git LFS if needed) ──
+*.h5
+*.keras
+*.weights.h5
+xception_model.keras
+xception_model.weights.h5
+cnn_model.h5
+best_xception_model.keras
+best_cnn_model.keras
+
+# ─── Dataset (very large — stored separately via Git LFS) ─
+Training/*/
+Testing/*/
+
+# ─── Saliency Maps & Generated Outputs ────────────────────
+saliency_maps/
+sample_data/
+driver/
+drive/
+
+# ─── OS Files ─────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── IDE / Editor ─────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ─── Logs ─────────────────────────────────────────────────
+*.log
+logs/
