@@ -32,6 +32,7 @@ best_cnn_model.keras
 # ─── Dataset (very large — stored separately via Git LFS) ─
 Training/*/
 Testing/*/
+data/
 
 # ─── Saliency Maps & Generated Outputs ────────────────────
 saliency_maps/
