@@ -13,9 +13,7 @@ build/
 # ─── Virtual Environments ─────────────────────────────────
 .venv/
 venv/
-env/
-ENV/
-.env           # actual secrets file — never commit this!
+.env
 
 # ─── Jupyter Notebooks ────────────────────────────────────
 .ipynb_checkpoints/
