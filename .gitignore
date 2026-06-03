@@ -53,3 +53,6 @@ desktop.ini
 # ─── Logs ─────────────────────────────────────────────────
 *.log
 logs/
+
+#Data for this ML project is large and should not be stored in the Git repository. Instead, it should be stored separately, for example using Git LFS or an external storage solution. The following line ensures that the data directory is ignored by Git:
+/data
