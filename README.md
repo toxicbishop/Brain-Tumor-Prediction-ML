@@ -1,6 +1,6 @@
 # 🧠 Brain Tumor Classification Using Deep Learning
 
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.12%2B-blue?logo=python&logoColor=white)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.13%2B-orange?logo=tensorflow&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-red?logo=streamlit&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green)
@@ -202,7 +202,7 @@ Dense(4, softmax)
 
 | Category        | Tools                            |
 | --------------- | -------------------------------- |
-| Language        | Python 3.9+                      |
+| Language        | Python 3.12.7+                   |
 | Deep Learning   | TensorFlow 2.x, Keras            |
 | Data            | NumPy, Pandas, Scikit-learn      |
 | Visualization   | Matplotlib, Seaborn, Plotly      |
