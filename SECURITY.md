@@ -6,4 +6,4 @@
 
 ## Reporting a Vulnerability
 
-If you discover any security vulnerabilities or issues with this project, please open an issue in the repository or contact the maintainers directly.
+If you discover any security vulnerabilities or issues with this project, please open an issue in the repository or contact the maintainers [toxicbishop](https://github.com/toxicbishop) directly.
