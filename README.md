@@ -1,10 +1,13 @@
 # 🧠 Brain Tumor Classification Using Deep Learning
 
-![Python](https://img.shields.io/badge/Python-3.12%2B-blue?logo=python&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-2.13%2B-orange?logo=tensorflow&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Streamlit-App-red?logo=streamlit&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green)
-![Dataset](https://img.shields.io/badge/Dataset-Kaggle-20BEFF?logo=kaggle&logoColor=white)
+[![Python Application](https://github.com/toxicbishop/Brain-Tumor-Prediction-ML/actions/workflows/python-app.yml/badge.svg)](https://github.com/toxicbishop/Brain-Tumor-Prediction-ML/actions/workflows/python-app.yml)
+[![CodeQL](https://github.com/toxicbishop/Brain-Tumor-Prediction-ML/actions/workflows/codeql.yml/badge.svg)](https://github.com/toxicbishop/Brain-Tumor-Prediction-ML/actions/workflows/codeql.yml)
+![Python](https://img.shields.io/badge/Python-3.12%2B-3776AB?style=flat-square&logo=python&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.13%2B-FF6F00?style=flat-square&logo=tensorflow&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)
+![Dataset](https://img.shields.io/badge/Dataset-Kaggle-20BEFF?style=flat-square&logo=kaggle&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)
 
 ## 📖 Overview
 
