@@ -11,3 +11,5 @@ opencv-python
 python-dotenv
 kagglehub
 pyngrok
+google-generativeai
+kaggle
