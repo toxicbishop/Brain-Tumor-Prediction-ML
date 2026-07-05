@@ -15,10 +15,6 @@ build/
 venv/
 .env
 
-# ─── Jupyter Notebooks ────────────────────────────────────
-.ipynb_checkpoints/
-*.ipynb
-
 # ─── Trained Model Files (large — use Git LFS if needed) ──
 *.h5
 *.keras
