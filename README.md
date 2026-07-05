@@ -41,7 +41,7 @@ An interactive **Streamlit** web app allows users to upload MRI scans and receiv
 
 ---
 
-## 🌟 Features
+## Features
 
 ### Deep Learning Models
 
