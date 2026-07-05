@@ -13,3 +13,4 @@ kagglehub
 pyngrok
 google-generativeai
 kaggle
+tornado>=6.3.3
