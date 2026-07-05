@@ -1,4 +1,4 @@
-# 🧠 Brain Tumor Classification Using Deep Learning
+# Brain Tumor Classification Using Deep Learning
 
 [![Python Application](https://github.com/toxicbishop/Brain-Tumor-Prediction-ML/actions/workflows/python-app.yml/badge.svg)](https://github.com/toxicbishop/Brain-Tumor-Prediction-ML/actions/workflows/python-app.yml)
 [![CodeQL](https://github.com/toxicbishop/Brain-Tumor-Prediction-ML/actions/workflows/codeql.yml/badge.svg)](https://github.com/toxicbishop/Brain-Tumor-Prediction-ML/actions/workflows/codeql.yml)
@@ -9,7 +9,7 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)
 
-## 📖 Overview
+## Overview
 
 This project classifies brain tumors from MRI scans using advanced deep learning techniques. The goal is to assist healthcare professionals in the early detection and diagnosis of brain tumors. The project uses transfer learning with the pre-trained **Xception model** and a custom-built **Convolutional Neural Network (CNN)** to classify MRI images into four categories:
 
@@ -24,7 +24,7 @@ An interactive **Streamlit** web app allows users to upload MRI scans and receiv
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 <table>
   <tr>
@@ -43,7 +43,7 @@ An interactive **Streamlit** web app allows users to upload MRI scans and receiv
 
 ## 🌟 Features
 
-### 🧠 Deep Learning Models
+### Deep Learning Models
 
 - **Xception (Transfer Learning)**
   - Pre-trained on ImageNet, fine-tuned for brain tumor classification
@@ -55,18 +55,18 @@ An interactive **Streamlit** web app allows users to upload MRI scans and receiv
   - L2 regularization and dropout for generalization
   - Achieves **98% accuracy** on test data
 
-### 🌐 Interactive Streamlit Web App
+### Interactive Streamlit Web App
 
 - Upload any brain MRI image (JPG/PNG)
 - Choose between Xception or Custom CNN model
 - See prediction confidence for all 4 classes via interactive Plotly charts
 
-### 🔍 Saliency Map Visualizations
+### Saliency Map Visualizations
 
 - Gradient-based saliency maps highlight the brain regions the model focuses on
 - **Gemini 1.5 Flash** generates a natural-language explanation of each prediction
 
-### 📊 Training & Evaluation
+### Training & Evaluation
 
 - Training/validation curves for accuracy, loss, precision, and recall
 - Confusion matrix with class-name labels
@@ -75,7 +75,7 @@ An interactive **Streamlit** web app allows users to upload MRI scans and receiv
 
 ---
 
-## 📂 Directory Structure
+## Directory Structure
 
 ```plaintext
 Brain-Tumor-Prediction-ML/
@@ -102,7 +102,7 @@ Brain-Tumor-Prediction-ML/
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Clone the Repository
 
@@ -159,7 +159,7 @@ streamlit run app.py
 
 ---
 
-## 🧠 Model Architecture
+## Model Architecture
 
 ### Xception (Transfer Learning)
 
@@ -192,7 +192,7 @@ Dense(4, softmax)
 
 ---
 
-## 📊 Results
+## Results
 
 | Model                        | Test Accuracy | Test Loss |
 | ---------------------------- | ------------- | --------- |
@@ -201,7 +201,7 @@ Dense(4, softmax)
 
 ---
 
-## 🛠️ Tools & Technologies
+## Tools & Technologies
 
 | Category        | Tools                            |
 | --------------- | -------------------------------- |
@@ -216,7 +216,7 @@ Dense(4, softmax)
 
 ---
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 - [ ] Grad-CAM visualizations (more interpretable than gradient saliency)
 - [ ] Multi-class ROC/AUC curve plots
@@ -226,12 +226,12 @@ Dense(4, softmax)
 
 ---
 
-## ⚠️ Disclaimer
+## Disclaimer
 
 This project is intended for **academic and research purposes only**. It is not a medical device and should not be used as a substitute for professional medical diagnosis.
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the [MIT License](LICENSE).
