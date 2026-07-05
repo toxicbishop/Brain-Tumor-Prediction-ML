@@ -1,6 +1,6 @@
 tensorflow>=2.21.0
-numpy
-pandas
+numpy>=1.26.4
+pandas>=2.2.2
 matplotlib
 seaborn
 scikit-learn
