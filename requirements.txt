@@ -12,5 +12,5 @@ python-dotenv==1.2.2
 kagglehub==0.3.3
 pyngrok==7.2.0
 google-generativeai==0.7.2
-kaggle==1.6.17
+kaggle==2.2.3
 tornado==6.5.7
