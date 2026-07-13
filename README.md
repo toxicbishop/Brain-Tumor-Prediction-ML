@@ -222,7 +222,6 @@ Dense(4, softmax)
 - [ ] Multi-class ROC/AUC curve plots
 - [ ] Interactive chat with Gemini about the MRI scan
 - [ ] Historical analysis — compare scans over time
-- [ ] Mobile-friendly app
 
 ---
 
