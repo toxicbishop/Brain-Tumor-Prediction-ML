@@ -294,6 +294,16 @@ In your response:
       with st.chat_message("assistant"):
           message_placeholder = st.empty()
           with st.spinner("Thinking..."):
-              response = gemini_model.generate_content(st.session_state.messages)
+              # The Gemini API doesn't support inline images in the chat history.
+              # We compile the history into a single text prompt and send the image alongside it.
+              img = PIL.Image.open(saliency_map_path)
+              full_context = ""
+              for msg in st.session_state.messages:
+                  if msg["role"] == "user":
+                      full_context += f"User: {msg['parts'][0]}\n\n"
+                  else:
+                      full_context += f"Model: {msg['parts'][0]}\n\n"
+              
+              response = gemini_model.generate_content([full_context, img])
               message_placeholder.markdown(response.text)
           st.session_state.messages.append({"role": "model", "parts": [response.text]})
