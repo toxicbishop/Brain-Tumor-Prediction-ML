@@ -216,14 +216,7 @@ Dense(4, softmax)
 
 ---
 
-## Future Enhancements
 
-- [ ] Grad-CAM visualizations (more interpretable than gradient saliency)
-- [ ] Multi-class ROC/AUC curve plots
-- [ ] Interactive chat with Gemini about the MRI scan
-- [ ] Historical analysis — compare scans over time
-
----
 
 ## Disclaimer
 
