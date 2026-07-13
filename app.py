@@ -267,13 +267,10 @@ In your response:
 - Explain possible reasons why the model made the prediction it did.
 - Keep your explanation to 4 sentences max.
 """
-      # Store the image in the first user message
-      st.session_state.messages.append({"role": "user", "parts": [prompt, img]})
-      
       with st.spinner("Generating explanation..."):
-          response = gemini_model.generate_content(st.session_state.messages)
+          response = gemini_model.generate_content([prompt, img])
+          st.session_state.messages.append({"role": "user", "parts": [prompt]})
           st.session_state.messages.append({"role": "model", "parts": [response.text]})
-
   # Display chat messages (skip the initial user prompt since it contains the hidden system instructions)
   for msg in st.session_state.messages:
       if msg["role"] == "user":
