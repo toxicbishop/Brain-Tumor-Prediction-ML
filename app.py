@@ -127,24 +127,46 @@ if uploaded_file is not None:
 
   selected_model = st.radio(
       "Selected Model",
-      ("Transfer Learning - Xception", "Custom CNN")
+      ("Transfer Learning - Xception", "Custom CNN", "Ensemble (Xception + CNN)")
   )
 
   if selected_model == "Transfer Learning - Xception":
     model = load_xception_model('xception_model.weights.h5')
     img_size = (299, 299)
-  else:
+  elif selected_model == "Custom CNN":
     model = load_model('cnn_model.h5')
     img_size = (224, 224)
+  else:
+    model_xc = load_xception_model('xception_model.weights.h5')
+    model_cnn = load_model('cnn_model.h5')
+    img_size = (299, 299)
 
   labels = ['Glioma', 'Meningioma', 'No Tumor', 'Pituitary']
 
-  img = image.load_img(uploaded_file, target_size=img_size)
-  img_array = image.img_to_array(img)
-  img_array = np.expand_dims(img_array, axis=0)
-  img_array /= 255.0
+  if selected_model == "Ensemble (Xception + CNN)":
+    img_xc = image.load_img(uploaded_file, target_size=(299, 299))
+    img_array_xc = image.img_to_array(img_xc)
+    img_array_xc = np.expand_dims(img_array_xc, axis=0) / 255.0
+    pred_xc = model_xc.predict(img_array_xc)
 
-  prediction = model.predict(img_array)
+    img_cnn = image.load_img(uploaded_file, target_size=(224, 224))
+    img_array_cnn = image.img_to_array(img_cnn)
+    img_array_cnn = np.expand_dims(img_array_cnn, axis=0) / 255.0
+    pred_cnn = model_cnn.predict(img_array_cnn)
+
+    prediction = (pred_xc + pred_cnn) / 2
+    
+    # Use Xception for the saliency map in Ensemble mode
+    model = model_xc
+    img_size = (299, 299)
+    img_array = img_array_xc
+    img = img_xc
+  else:
+    img = image.load_img(uploaded_file, target_size=img_size)
+    img_array = image.img_to_array(img)
+    img_array = np.expand_dims(img_array, axis=0)
+    img_array /= 255.0
+    prediction = model.predict(img_array)
 
   class_index = np.argmax(prediction[0])
   result = labels[class_index]
