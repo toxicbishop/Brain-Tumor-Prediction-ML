@@ -55,23 +55,29 @@ An interactive **Streamlit** web app allows users to upload MRI scans and receiv
   - L2 regularization and dropout for generalization
   - Achieves **98% accuracy** on test data
 
+- **Ensemble (Xception + CNN)**
+  - Averages predictions from both models to improve robustness and reduce variance
+  - Leverages both the deep hierarchical features of Xception and the spatial local features of the Custom CNN
+
 ### Interactive Streamlit Web App
 
 - Upload any brain MRI image (JPG/PNG)
-- Choose between Xception or Custom CNN model
+- Choose between Xception, Custom CNN, or Ensemble model
+- **Historical Comparison Mode:** Upload two scans (previous vs recent) to compare progression side-by-side
 - See prediction confidence for all 4 classes via interactive Plotly charts
 
-### Saliency Map Visualizations
+### Grad-CAM Visualizations & Gemini Explanations
 
-- Gradient-based saliency maps highlight the brain regions the model focuses on
-- **Gemini 1.5 Flash** generates a natural-language explanation of each prediction
+- **Grad-CAM (Gradient-weighted Class Activation Mapping):** Replaces basic saliency maps to provide accurate, clinical-grade heatmaps of the exact regions the model focuses on
+- **Gemini 1.5 Flash:** Generates natural-language clinical explanations of predictions
+- **Historical Comparative Analysis:** Gemini acts as an expert oncologist to analyze two scans and explain disease progression (e.g., tumor shrinking, growing, or stable)
 
 ### Training & Evaluation
 
 - Training/validation curves for accuracy, loss, precision, and recall
 - Confusion matrix with class-name labels
 - Full classification report (precision, recall, F1-score per class)
-- ROC/AUC curves for multi-class evaluation
+- Multi-class ROC/AUC curves for comprehensive performance evaluation
 
 ---
 
