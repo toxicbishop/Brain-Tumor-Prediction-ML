@@ -251,7 +251,7 @@ if uploaded_file is not None:
       st.session_state.current_file = uploaded_file.name
       st.session_state.messages = []
 
-  gemini_model = genai.GenerativeModel(model_name="gemini-1.5-flash") # type: ignore
+  gemini_model = genai.GenerativeModel(model_name="gemini-2.5-flash") # type: ignore
 
   # Generate initial explanation if empty
   if len(st.session_state.messages) == 0:
