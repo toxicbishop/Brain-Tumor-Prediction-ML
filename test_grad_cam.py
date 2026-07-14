@@ -44,9 +44,7 @@ def generate_grad_cam(model, img_array, class_index, img_size, img_array_origina
     with tf.GradientTape() as tape:
         if is_nested:
             base_model = model.layers[0]
-            # Use base_model.layers[-1].output or base_model.outputs
-            base_output_tensor = base_model.outputs[0] if hasattr(base_model, 'outputs') and base_model.outputs else base_model.layers[-1].output
-            base_grad_model = tf.keras.Model(base_model.inputs, [target_layer.output, base_output_tensor])
+            base_grad_model = tf.keras.Model(base_model.inputs, [target_layer.output, base_model.output])
             conv_outputs, base_outputs = base_grad_model(img_array)
             
             tape.watch(conv_outputs)
@@ -56,9 +54,14 @@ def generate_grad_cam(model, img_array, class_index, img_size, img_array_origina
                 x = layer(x)
             predictions = x
         else:
-            final_output_tensor = model.outputs[0] if hasattr(model, 'outputs') and model.outputs else model.layers[-1].output
-            grad_model = tf.keras.Model(model.inputs, [target_layer.output, final_output_tensor])
-            conv_outputs, predictions = grad_model(img_array)
+            x = img_array
+            conv_outputs = None
+            for layer in model.layers:
+                x = layer(x)
+                if layer.name == target_layer.name:
+                    conv_outputs = x
+                    tape.watch(conv_outputs)
+            predictions = x
             
         loss = predictions[:, class_index]
 

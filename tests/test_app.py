@@ -32,18 +32,15 @@ def test_load_xception_model_architecture():
         # Verify load_weights was called with the correct path
         mock_load_weights.assert_called_once_with('dummy_path.h5')
 
-def test_generate_saliency_map_execution():
-    """Test that the saliency map generation runs without crashing and returns an image."""
+def test_generate_grad_cam_execution():
+    """Test that the Grad-CAM generation runs without crashing and returns an image."""
     
-    # Create a simple mock model that returns a dummy tensor
-    class MockModel(tf.keras.Model):
-        def call(self, inputs):
-            # Sum the inputs so that tape.gradient has a path to follow
-            dummy_sum = tf.reduce_sum(inputs) * 0.001
-            # Output must be (batch_size, num_classes)
-            return tf.convert_to_tensor([[dummy_sum, dummy_sum, dummy_sum, dummy_sum]])
-            
-    mock_model = MockModel()
+    # Create a simple Sequential model with a Conv2D layer so Grad-CAM can find it
+    mock_model = tf.keras.models.Sequential([
+        tf.keras.layers.Conv2D(2, (3,3), input_shape=(224, 224, 3), padding='same', name='conv2d_mock'),
+        tf.keras.layers.GlobalAveragePooling2D(),
+        tf.keras.layers.Dense(4, activation='softmax')
+    ])
     
     # Dummy input image array (1, 224, 224, 3)
     img_array = np.random.rand(1, 224, 224, 3).astype(np.float32)
@@ -60,8 +57,8 @@ def test_generate_saliency_map_execution():
             
     uploaded_file = DummyUploadedFile()
     
-    # Generate the saliency map
-    saliency_map = app.generate_saliency_map(
+    # Generate the Grad-CAM heatmap
+    saliency_map = app.generate_grad_cam(
         model=mock_model,
         img_array=img_array,
         class_index=1,
