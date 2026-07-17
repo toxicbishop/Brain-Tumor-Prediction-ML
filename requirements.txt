@@ -9,7 +9,7 @@ streamlit==1.58.0
 plotly==6.8.0
 opencv-python==4.10.0.84
 python-dotenv==1.2.2
-kagglehub==0.3.3
+kagglehub==1.0.2
 pyngrok==8.1.2
 google-generativeai==0.7.2
 kaggle==2.2.3
