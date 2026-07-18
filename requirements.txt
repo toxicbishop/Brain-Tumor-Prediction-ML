@@ -7,7 +7,7 @@ scikit-learn==1.8.0
 pillow==12.3.0
 streamlit==1.59.2
 plotly==6.8.0
-opencv-python==4.10.0.84
+opencv-python-headless==4.10.0.84
 python-dotenv==1.2.2
 kagglehub==1.0.2
 pyngrok==8.1.2
