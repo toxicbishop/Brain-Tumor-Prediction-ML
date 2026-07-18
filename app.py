@@ -259,7 +259,7 @@ def main():
         st.plotly_chart(fig)
 
 
-    gemini_model = genai.GenerativeModel(model_name="gemini-1.5-flash") # type: ignore
+    gemini_model = genai.GenerativeModel(model_name="gemini-2.5-flash") # type: ignore
 
     if analysis_mode == "Single Scan Analysis":
         uploaded_file = st.file_uploader("Choose an Image...", type=["jpg", "jpeg", "png"])
