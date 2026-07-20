@@ -10,13 +10,6 @@ from unittest.mock import MagicMock
 # Mock streamlit and generativeai before importing app.py to prevent import errors in CI
 mock_st = MagicMock()
 mock_st.file_uploader.return_value = None
-
-def mock_cache_resource(*args, **kwargs):
-    def decorator(func):
-        return func
-    return decorator
-mock_st.cache_resource = mock_cache_resource
-
 sys.modules['streamlit'] = mock_st
 sys.modules['google.generativeai'] = MagicMock()
 

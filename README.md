@@ -2,10 +2,10 @@
 
 [![Python Application](https://github.com/toxicbishop/Brain-Tumor-Prediction-ML/actions/workflows/python-app.yml/badge.svg)](https://github.com/toxicbishop/Brain-Tumor-Prediction-ML/actions/workflows/python-app.yml)
 [![CodeQL](https://github.com/toxicbishop/Brain-Tumor-Prediction-ML/actions/workflows/codeql.yml/badge.svg)](https://github.com/toxicbishop/Brain-Tumor-Prediction-ML/actions/workflows/codeql.yml)
-![Python](https://img.shields.io/badge/Python-3.12%2B-3776AB?style=flat-square&logo=python&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-2.13%2B-FF6F00?style=flat-square&logo=tensorflow&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)
-![Dataset](https://img.shields.io/badge/Dataset-Kaggle-20BEFF?style=flat-square&logo=kaggle&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.12.x-3776AB?logo=python&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.13.x-FF6F00?logo=tensorflow&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
+![Dataset](https://img.shields.io/badge/Dataset-Kaggle-20BEFF?logo=kaggle&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)
 
@@ -41,7 +41,7 @@ An interactive **Streamlit** web app allows users to upload MRI scans and receiv
 
 ---
 
-## 🌟 Features
+## Features
 
 ### Deep Learning Models
 
@@ -55,23 +55,29 @@ An interactive **Streamlit** web app allows users to upload MRI scans and receiv
   - L2 regularization and dropout for generalization
   - Achieves **98% accuracy** on test data
 
+- **Ensemble (Xception + CNN)**
+  - Averages predictions from both models to improve robustness and reduce variance
+  - Leverages both the deep hierarchical features of Xception and the spatial local features of the Custom CNN
+
 ### Interactive Streamlit Web App
 
 - Upload any brain MRI image (JPG/PNG)
-- Choose between Xception or Custom CNN model
+- Choose between Xception, Custom CNN, or Ensemble model
+- **Historical Comparison Mode:** Upload two scans (previous vs recent) to compare progression side-by-side
 - See prediction confidence for all 4 classes via interactive Plotly charts
 
-### Saliency Map Visualizations
+### Grad-CAM Visualizations & Gemini Explanations
 
-- Gradient-based saliency maps highlight the brain regions the model focuses on
-- **Gemini 1.5 Flash** generates a natural-language explanation of each prediction
+- **Grad-CAM (Gradient-weighted Class Activation Mapping):** Replaces basic saliency maps to provide accurate, clinical-grade heatmaps of the exact regions the model focuses on
+- **Gemini 1.5 Flash:** Generates natural-language clinical explanations of predictions
+- **Historical Comparative Analysis:** Gemini acts as an expert oncologist to analyze two scans and explain disease progression (e.g., tumor shrinking, growing, or stable)
 
 ### Training & Evaluation
 
 - Training/validation curves for accuracy, loss, precision, and recall
 - Confusion matrix with class-name labels
 - Full classification report (precision, recall, F1-score per class)
-- ROC/AUC curves for multi-class evaluation
+- Multi-class ROC/AUC curves for comprehensive performance evaluation
 
 ---
 
@@ -216,15 +222,7 @@ Dense(4, softmax)
 
 ---
 
-## Future Enhancements
 
-- [ ] Grad-CAM visualizations (more interpretable than gradient saliency)
-- [ ] Multi-class ROC/AUC curve plots
-- [ ] Interactive chat with Gemini about the MRI scan
-- [ ] Historical analysis — compare scans over time
-- [ ] Mobile-friendly app
-
----
 
 ## Disclaimer
 
