@@ -40,7 +40,7 @@ def test_load_xception_model_architecture():
 
     # Build a minimal stub that satisfies the Sequential constructor
     stub_base = tf.keras.Sequential([
-        tf.keras.layers.Conv2D(4, (3, 3), padding='same', input_shape=(299, 299, 3)),
+        tf.keras.layers.Conv2D(4, (3, 3), padding='same', input_shape=(299, 299, 3)), # type: ignore
         tf.keras.layers.GlobalAveragePooling2D(),
     ])
     stub_base.trainable = False
@@ -63,7 +63,7 @@ def test_generate_grad_cam_execution():
 
     # Create a simple Sequential model with a Conv2D layer so Grad-CAM can find it
     mock_model = tf.keras.models.Sequential([
-        tf.keras.layers.Conv2D(2, (3, 3), input_shape=(224, 224, 3), padding='same', name='conv2d_mock'),
+        tf.keras.layers.Conv2D(2, (3, 3), input_shape=(224, 224, 3), padding='same', name='conv2d_mock'), # type: ignore
         tf.keras.layers.GlobalAveragePooling2D(),
         tf.keras.layers.Dense(4, activation='softmax')
     ])
