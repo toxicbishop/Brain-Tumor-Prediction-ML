@@ -22,7 +22,8 @@ def _passthrough_cache_resource(*args, **kwargs):
 
 mock_st.cache_resource = _passthrough_cache_resource
 sys.modules['streamlit'] = mock_st
-sys.modules['google.generativeai'] = MagicMock()
+sys.modules['google.genai'] = MagicMock()
+sys.modules['google.generativeai'] = MagicMock()  # kept for transitive deps only
 
 # Add parent directory to path to import app.py
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))

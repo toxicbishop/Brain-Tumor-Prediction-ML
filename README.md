@@ -20,7 +20,7 @@ This project classifies brain tumors from MRI scans using advanced deep learning
 | 🟡 Pituitary  | A tumor on the pituitary gland                      |
 | 🟢 No Tumor   | No tumor detected                                   |
 
-An interactive **Streamlit** web app allows users to upload MRI scans and receive real-time predictions with visual saliency map explanations powered by **Gemini 1.5 Flash**.
+An interactive **Streamlit** web app allows users to upload MRI scans and receive real-time predictions with visual saliency map explanations powered by **Gemini 3.5 Flash**.
 
 ---
 
