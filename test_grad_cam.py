@@ -40,15 +40,18 @@ def get_target_layer(model):
 def generate_grad_cam(model, img_array, class_index, img_size, img_array_original, filename):
     is_nested = isinstance(model.layers[0], tf.keras.Model)
     target_layer = get_target_layer(model)
-    
+
+    if target_layer is None:
+        raise ValueError("No Conv2D layer found in the model for Grad-CAM.")
+
     with tf.GradientTape() as tape:
         if is_nested:
             base_model = model.layers[0]
             base_grad_model = tf.keras.Model(base_model.inputs, [target_layer.output, base_model.output])
             conv_outputs, base_outputs = base_grad_model(img_array)
-            
+
             tape.watch(conv_outputs)
-            
+
             x = base_outputs
             for layer in model.layers[1:]:
                 x = layer(x)
@@ -61,31 +64,33 @@ def generate_grad_cam(model, img_array, class_index, img_size, img_array_origina
                 if layer.name == target_layer.name:
                     conv_outputs = x
                     tape.watch(conv_outputs)
+            if conv_outputs is None:
+                raise ValueError("Grad-CAM: target layer output was not captured.")
             predictions = x
-            
+
         loss = predictions[:, class_index]
 
     grads = tape.gradient(loss, conv_outputs)
     pooled_grads = tf.reduce_mean(grads, axis=(0, 1, 2))
-    
-    conv_outputs = conv_outputs[0]
-    heatmap = conv_outputs @ pooled_grads[..., tf.newaxis]
+
+    conv_outputs = conv_outputs[0]  # type: ignore[index]
+    heatmap = conv_outputs @ pooled_grads[..., tf.newaxis]  # type: ignore[index]
     heatmap = tf.squeeze(heatmap)
-    
+
     heatmap = tf.maximum(heatmap, 0) / tf.math.reduce_max(heatmap)
-    heatmap = heatmap.numpy()
-    
-    heatmap = cv2.resize(heatmap, img_size)
-    heatmap = np.uint8(255 * heatmap)
-    heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
-    heatmap = cv2.cvtColor(heatmap, cv2.COLOR_BGR2RGB)
-    
-    superimposed_img = heatmap * 0.4 + img_array_original * 0.6
+    heatmap_np: np.ndarray = heatmap.numpy()
+
+    heatmap_np = cv2.resize(heatmap_np, img_size)
+    heatmap_uint8 = np.uint8(255 * heatmap_np)
+    heatmap_color: np.ndarray = cv2.applyColorMap(heatmap_uint8, cv2.COLORMAP_JET)  # type: ignore[call-overload]
+    heatmap_rgb = cv2.cvtColor(heatmap_color, cv2.COLOR_BGR2RGB)
+
+    superimposed_img = heatmap_rgb * 0.4 + img_array_original * 0.6
     superimposed_img = superimposed_img.astype(np.uint8)
-    
+
     saliency_map_path = os.path.join(output_dir, filename)
     cv2.imwrite(saliency_map_path, cv2.cvtColor(superimposed_img, cv2.COLOR_RGB2BGR))
-    
+
     return superimposed_img
 
 try:

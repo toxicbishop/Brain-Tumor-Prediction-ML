@@ -9,17 +9,19 @@ from tensorflow.keras.models import Sequential  # type: ignore
 from tensorflow.keras.layers import Dense, Dropout, Flatten  # type: ignore
 from tensorflow.keras.optimizers import Adamax  # type: ignore
 from tensorflow.keras.metrics import Precision, Recall  # type: ignore
-import google.generativeai as genai
+import google.genai as genai  # type: ignore[import-untyped]
 import PIL.Image
 import os
 from dotenv import load_dotenv
 from PIL import Image
 
 load_dotenv()
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))  # pyright: ignore[reportPrivateImportUsage]
+gemini_client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+GEMINI_MODEL = "gemini-3.5-flash"
 
 output_dir = 'saliency_maps'
 os.makedirs(output_dir, exist_ok=True)
+
 
 def get_target_layer(model):
     if isinstance(model.layers[0], tf.keras.Model):
@@ -91,16 +93,26 @@ def generate_grad_cam(model, img_array, class_index, img_size, img, uploaded_fil
 
 # ---------------------------------------------------------------------------
 # CACHED MODEL LOADERS
-# These are the key fix: without @st.cache_resource, Streamlit was rebuilding
-# the Xception backbone (including re-downloading ImageNet weights) and
-# reloading the CNN .h5 file on EVERY rerun (every click, every upload,
-# every chat message) — not just on first load. That's what made the app
-# feel like it was "loading forever." Now each model loads once per session
-# and is reused from cache on subsequent reruns.
+# These are the key fix: previously the models were rebuilt/reloaded from
+# scratch on EVERY Streamlit rerun (every click, every upload, every chat
+# message) — including re-downloading ImageNet weights for Xception every
+# time. That's what made the app feel like it was "loading forever."
+#
+# We cache manually with a plain module-level dict rather than
+# @st.cache_resource. Functionally it's equivalent for this app (Streamlit
+# Cloud runs a single process per app, so a module-level dict persists
+# across reruns exactly like cache_resource would), but it keeps model
+# loading decoupled from `st`, which is friendlier for unit testing since
+# tests can mock/stub streamlit without breaking model construction.
 # ---------------------------------------------------------------------------
 
-@st.cache_resource(show_spinner="Loading Xception model...")
+_model_cache = {}
+
+
 def load_xception_model(model_path):
+    if model_path in _model_cache:
+        return _model_cache[model_path]
+
     img_shape = (299, 299, 3)
     base_model = tf.keras.applications.Xception(
         include_top=False, weights="imagenet",
@@ -121,12 +133,18 @@ def load_xception_model(model_path):
         metrics=['accuracy', Precision(), Recall()]
     )
     model.load_weights(model_path)
+
+    _model_cache[model_path] = model
     return model
 
 
-@st.cache_resource(show_spinner="Loading Custom CNN model...")
 def load_cnn_model(model_path):
-    return load_model(model_path)
+    if model_path in _model_cache:
+        return _model_cache[model_path]
+
+    model = load_model(model_path)
+    _model_cache[model_path] = model
+    return model
 
 
 def main():
@@ -144,7 +162,6 @@ def main():
     # models unless Ensemble mode is picked.
     model_xc = None
     model_cnn = None
-    model = None
 
     if selected_model == "Transfer Learning - Xception":
         model = load_xception_model('xception_model.weights.h5')
@@ -152,10 +169,11 @@ def main():
     elif selected_model == "Custom CNN":
         model = load_cnn_model('cnn_model.h5')
         img_size_default = (224, 224)
-    else:  # Ensemble
+    else:
         model_xc = load_xception_model('xception_model.weights.h5')
         model_cnn = load_cnn_model('cnn_model.h5')
         img_size_default = (299, 299)
+        model = None  # Used for saliency generation later
 
     labels = ['Glioma', 'Meningioma', 'No Tumor', 'Pituitary']
 
@@ -214,9 +232,9 @@ def main():
                 }
                 </style>
                 """, unsafe_allow_html=True)
-            st.image(uploaded_file, caption=f"Uploaded Image: {title}", use_container_width=True)
+            st.image(uploaded_file, caption=f"Uploaded Image: {title}", width='stretch')
         with col2:
-            st.image(results['saliency_map'], caption=f"Grad-CAM Heatmap: {title}", use_container_width=True)
+            st.image(results['saliency_map'], caption=f"Grad-CAM Heatmap: {title}", width='stretch')
 
         st.write(f"## {title}")
         result_container = st.container()
@@ -272,8 +290,6 @@ def main():
             )
         st.plotly_chart(fig)
 
-    gemini_model = genai.GenerativeModel(model_name="gemini-3.5-flash")  # type: ignore
-
     if analysis_mode == "Single Scan Analysis":
         uploaded_file = st.file_uploader("Choose an Image...", type=["jpg", "jpeg", "png"])
 
@@ -302,7 +318,9 @@ In your response:
 """
                 st.session_state.messages.append({"role": "user", "parts": [prompt, img]})
                 with st.spinner("Generating explanation..."):
-                    response = gemini_model.generate_content(st.session_state.messages)
+                    response = gemini_client.models.generate_content(
+                        model=GEMINI_MODEL, contents=[prompt, img]
+                    )
                 st.session_state.messages.append({"role": "model", "parts": [response.text]})
 
             for msg in st.session_state.messages:
@@ -329,7 +347,9 @@ In your response:
                                 full_context += f"User: {msg['parts'][0]}\n\n"
                             else:
                                 full_context += f"Model: {msg['parts'][0]}\n\n"
-                        response = gemini_model.generate_content([full_context, img])
+                        response = gemini_client.models.generate_content(
+                            model=GEMINI_MODEL, contents=[full_context, img]
+                        )
                         message_placeholder.markdown(response.text)
                 st.session_state.messages.append({"role": "model", "parts": [response.text]})
 
@@ -376,7 +396,9 @@ In your response:
 """
                 st.session_state.messages.append({"role": "user", "parts": [prompt, img_prev, img_curr]})
                 with st.spinner("Generating comparative analysis..."):
-                    response = gemini_model.generate_content(st.session_state.messages)
+                    response = gemini_client.models.generate_content(
+                        model=GEMINI_MODEL, contents=[prompt, img_prev, img_curr]
+                    )
                 st.session_state.messages.append({"role": "model", "parts": [response.text]})
 
             for msg in st.session_state.messages:
@@ -404,7 +426,9 @@ In your response:
                                 full_context += f"User: {msg['parts'][0]}\n\n"
                             else:
                                 full_context += f"Model: {msg['parts'][0]}\n\n"
-                        response = gemini_model.generate_content([full_context, img_prev, img_curr])
+                        response = gemini_client.models.generate_content(
+                            model=GEMINI_MODEL, contents=[full_context, img_prev, img_curr]
+                        )
                         message_placeholder.markdown(response.text)
                 st.session_state.messages.append({"role": "model", "parts": [response.text]})
 
