@@ -13,5 +13,5 @@ kagglehub==1.0.2
 pyngrok==8.1.2
 google-genai>=2.25.0
 kaggle==2.2.3
-tornado==6.5.8
+tornado==6.5.10
 pytest==9.1.1
