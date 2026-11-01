@@ -1,11 +1,11 @@
-tensorflow==2.16.1
+tensorflow==2.18.0
 numpy==1.26.4
 pandas==3.0.6
 matplotlib==3.11.2
 seaborn==0.13.2
 scikit-learn==1.9.1
 pillow==13.0.0
-streamlit==1.60.0
+streamlit==1.66.1
 plotly==7.1.0
 opencv-python-headless==4.10.0.84
 python-dotenv==1.2.4
