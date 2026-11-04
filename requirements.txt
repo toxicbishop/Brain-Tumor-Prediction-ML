@@ -10,7 +10,7 @@ plotly==7.1.0
 opencv-python-headless==4.10.0.84
 python-dotenv==1.2.4
 kagglehub==1.0.2
-pyngrok==8.1.2
+pyngrok==9.1.1
 google-genai>=2.31.0
 kaggle==2.2.3
 tornado==6.6
